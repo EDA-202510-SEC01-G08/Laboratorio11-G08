@@ -7,7 +7,7 @@ def new_graph(order):
              "num_edges": 0}
     return graph
 
-def instert_vertex(my_graph, key_u, info_u):
+def insert_vertex(my_graph, key_u, info_u):
     vertex = ve.new_vertex(key_u, info_u)
     lp.put(my_graph["vertices"], key_u, vertex)
     return my_graph
@@ -31,10 +31,19 @@ def remove_vertex(my_graph, key_u):
 def add_edge(my_graph, key_u, key_v, weight=1.0):
     vertex_u = lp.get(my_graph["vertices"], key_u)
     vertex_v = lp.get(my_graph["vertices"], key_v)
-    if vertex_u == None
+    if vertex_u == None:
         raise Exception("El vertice u no existe")
     elif vertex_v == None:
         raise Exception("El vertice v no existe")
     else:
-        pass
-    pass
+        edge = edg.new_edge(key_v, weight)
+        ve.add_adjacent(vertex_u, key_v, weight)
+        ve.add_adjacent(vertex_v, key_u, weight)
+        my_graph["num_edges"] += 1
+        return my_graph
+
+def order(my_graph):
+    return lp.size(my_graph["vertices"])
+
+def size(my_graph):
+    return my_graph["num_edges"]
