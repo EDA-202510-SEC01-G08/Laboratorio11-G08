@@ -1,5 +1,5 @@
 from DataStructures.Stack import stack as st
-from DataStructures.List import array_list as al
+from DataStructures.Map import map_linear_probing as lp
 from DataStructures.Graph import digraph as dg
 from DataStructures.Graph import vertex as ve
 
@@ -20,8 +20,11 @@ def dfs_vertex(my_graph, vertex, search, stack):
     else:
         vertex = st.pop(stack)
         st.push(search, vertex)
-        adjacents = ve.get_adjacents(vertex)
-        for i in adjacents["table"]["elements"]:
-            if i != None and i["key"] not in search["elements"]:
-                st.push(stack, i["key"])
+        adjacents = ve.get_adjacents(lp.get(my_graph["vertices"], vertex))
+        if adjacents == None:
+            return dfs_vertex(my_graph, vertex, search, stack)
+        else:
+            for i in adjacents["table"]["elements"]:
+                if i != None and i["key"] not in search["elements"]:
+                    st.push(stack, i["key"])
         return dfs_vertex(my_graph, vertex, search, stack)
