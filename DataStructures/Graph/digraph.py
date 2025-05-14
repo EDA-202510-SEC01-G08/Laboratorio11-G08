@@ -47,3 +47,13 @@ def order(my_graph):
 
 def size(my_graph):
     return my_graph["num_edges"]
+
+def vertices(my_graph):
+    return lp.keys(my_graph["vertices"])
+
+def degree(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        raise Exception("El vertice no existe")
+    else:
+        return ve.degree(vertex)
