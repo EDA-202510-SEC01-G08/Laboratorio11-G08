@@ -57,3 +57,49 @@ def degree(my_graph, key_u):
         raise Exception("El vertice no existe")
     else:
         return ve.degree(vertex)
+    
+def get_edge(my_graph, key_u, key_v):
+    vertex_u = lp.get(my_graph["vertices"], key_u)
+    vertex_v = lp.get(my_graph["vertices"], key_v)
+    if vertex_u == None:
+        raise Exception("El vertice u no existe")
+    elif vertex_v == None:
+        raise Exception("El vertice v no existe")
+    else:
+        edge = ve.get_edge(vertex_u, key_v)
+        return edge
+    
+def get_vertex_information(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        raise Exception("El vertice no existe")
+    else:
+        return ve.get_value(vertex)
+    
+def contains_vertex(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        return False
+    else:
+        return True
+    
+def adjacents(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        raise Exception("El vertice no existe")
+    else:
+        return ve.get_adjacents(vertex)
+    
+def edges_vertex(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        raise Exception("El vertice no existe")
+    else:
+        return ve.get_edge(vertex)
+
+def get_vertex(my_graph, key_u):
+    vertex = lp.get(my_graph["vertices"], key_u)
+    if vertex == None:
+        raise Exception("El vertice no existe")
+    else:
+        return vertex
