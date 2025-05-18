@@ -29,3 +29,9 @@ def bfs_vertex(my_graph, vertex, search, queue):
                 if i != None and i["key"] not in search["elements"]:
                     q.enqueue(queue, i["key"])
         return bfs_vertex(my_graph, vertex, search, queue)
+    
+def has_path_to(key_v, visited_map):
+    if key_v in visited_map["elements"]:
+        return True
+    else:
+        return False

@@ -1,5 +1,6 @@
 from DataStructures.Stack import stack as st
 from DataStructures.Map import map_linear_probing as lp
+from DataStructures.List import array_list as ar
 from DataStructures.Graph import digraph as dg
 from DataStructures.Graph import vertex as ve
 
@@ -28,3 +29,9 @@ def dfs_vertex(my_graph, vertex, search, stack):
                 if i != None and i["key"] not in search["elements"]:
                     st.push(stack, i["key"])
         return dfs_vertex(my_graph, vertex, search, stack)
+    
+def has_path_to(key_v, visited_map):
+    if key_v in visited_map["elements"]:
+        return True
+    else:
+        return False
