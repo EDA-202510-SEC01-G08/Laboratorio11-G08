@@ -35,3 +35,9 @@ def has_path_to(key_v, visited_map):
         return True
     else:
         return False
+
+def path_to(key_v, visited_map):
+    if key_v in visited_map["elements"]:
+        return visited_map["elements"][key_v]
+    else:
+        return None
