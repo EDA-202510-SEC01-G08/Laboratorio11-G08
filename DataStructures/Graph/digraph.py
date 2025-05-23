@@ -2,6 +2,7 @@ from DataStructures.Map import map_linear_probing as lp
 from DataStructures.Graph import edge as edg
 from DataStructures.Graph import vertex as ve
 
+
 def new_graph(order):
     graph = {"vertices": lp.new_map(order, 0.5, 109345121),
              "num_edges": 0}
@@ -36,9 +37,8 @@ def add_edge(my_graph, key_u, key_v, weight=1.0):
     elif vertex_v == None:
         raise Exception("El vertice v no existe")
     else:
-        edge = edg.new_edge(key_v, weight)
         ve.add_adjacent(vertex_u, key_v, weight)
-        ve.add_adjacent(vertex_v, key_u, weight)
+
         my_graph["num_edges"] += 1
         return my_graph
 

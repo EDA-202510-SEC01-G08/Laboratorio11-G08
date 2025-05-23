@@ -1,53 +1,48 @@
 from DataStructures.List import array_list as al
 from DataStructures.Priority_queue import index_pq_entry as ie
 
-def new_heap(is_min_pq=True):
-    if is_min_pq == True:
-        cmp_function = default_compare_lower_value()
-    else:
-        cmp_function = default_compare_higher_value()
+def new_heap(cmp_function):
+
+# Recibe una funcion tal que, si es de mayor prioridad, devuelve 1
+# si es de igual prioridad, devuelve 0
+# si es de menor prioridad, devuelve -1
+
     lista = al.new_list()
     al.add_last(lista, None)
-    my_heap = {"elelemts": lista,
-               "size": 0,
-               "cmp_function": cmp_function}
+    my_heap = {
+        "elements": lista,
+        "size": 0,
+        "cmp_function": cmp_function
+    }
     return my_heap
 
-def default_compare_higher_value(father_node, child_node):
-    if father_node >= child_node:
-        return True
-    else:
-        return False
-
-def default_compare_lower_value(father_node, child_node):
-    if father_node <= child_node:
-        return True
-    else:
-        return False
     
 def priority(my_heap, parent, child):
-    cmp_function = my_heap["cmp_function"]
-    if cmp_function(parent, child):
-        return True
-    else:
-        return False
 
-def insert(my_heap, element, key):
-    new_entry = ie.new_pq_entry(key, element)
-    al.add_last(my_heap["elements"], new_entry)
+# True si 'parent' tiene mayor o igual prioridad que 'child'
+
+    cmp_function = my_heap["cmp_function"]
+    result = cmp_function(parent, child)
+    return result >= 0  # Mayor o igual prioridad que el hijo
+
+def insert(my_heap, element): 
+
+    al.add_last(my_heap["elements"], element)
     my_heap["size"] += 1
-    swim(my_heap, my_heap["size"]-1)
+    swim(my_heap, my_heap["elements"]["size"]-1)
 
 def swim(my_heap, pos):
-    if pos == 0:
+
+    if pos <= 1:
         return my_heap
     else:
-        father_pos = pos // 2
-        father = al.get_element(my_heap["elements"], father_pos)
+        parent_pos = pos // 2
+        parent = al.get_element(my_heap["elements"], parent_pos)
         child = al.get_element(my_heap["elements"], pos)
-        if priority(my_heap, ie.get_index(father), ie.get_index(child)):
-            al.exchange(my_heap["elements"], father_pos, pos)
-            return swim(my_heap, father_pos)
+        # Si el hijo tiene mayor prioridad que el padre, los intercambia
+        if priority(my_heap, child, parent):
+            al.exchange(my_heap["elements"], parent_pos, pos)
+            return swim(my_heap, parent_pos)
         else:
             return my_heap
 
@@ -65,35 +60,51 @@ def get_first_priority(my_heap):
         return None
     else:
         elemento = al.get_element(my_heap["elements"], 1)
-        valor = ie.get_index(elemento)
-        return valor
+        return elemento
 
 def remove (my_heap):
     if is_empty(my_heap):
         return None
     else:
         first = al.get_element(my_heap["elements"], 1)
-        al.exchange(my_heap["elements"], 1, my_heap["size"])
+        al.exchange(my_heap["elements"], 1, size(my_heap))
         al.remove_last(my_heap["elements"])
         my_heap["size"] -= 1
         sink(my_heap, 1)
-        return ie.get_index(first)
+        return first
 
 
 def sink(my_heap, pos):
-    if pos >= my_heap["size"]:
+    size_heap = size(my_heap)
+    left_child_pos = pos * 2
+    right_child_pos = pos * 2 + 1
+
+    # Si no hay hijos, termina
+    if left_child_pos > size_heap:
         return my_heap
-    else:
-        left_child_pos = pos * 2
-        right_child_pos = pos * 2 + 1
-        father = al.get_element(my_heap["elements"], pos)
-        left_child = al.get_element(my_heap["elements"], left_child_pos)
-        right_child = al.get_element(my_heap["elements"], right_child_pos)
-        if priority(my_heap, ie.get_index(father), ie.get_index(left_child)) and priority(my_heap, ie.get_index(father), ie.get_index(right_child)):
-            return my_heap
-        elif priority(my_heap, ie.get_index(left_child), ie.get_index(right_child)):
+
+    father = al.get_element(my_heap["elements"], pos)
+    left_child = al.get_element(my_heap["elements"], left_child_pos)
+
+    # Si solo hay hijo izquierdo
+    if right_child_pos > size_heap:
+        if not priority(my_heap, father, left_child):
             al.exchange(my_heap["elements"], pos, left_child_pos)
-            return sink(my_heap, left_child_pos)
-        else:
-            al.exchange(my_heap["elements"], pos, right_child_pos)
-            return sink(my_heap, right_child_pos)
+            sink(my_heap, left_child_pos)
+        return my_heap
+
+    # Si hay ambos hijos
+    right_child = al.get_element(my_heap["elements"], right_child_pos)
+    # Elige el hijo con mayor prioridad para comparar con el padre
+    if priority(my_heap, left_child, right_child):
+        best_child_pos = left_child_pos
+        best_child = left_child
+    else:
+        best_child_pos = right_child_pos
+        best_child = right_child
+
+    if not priority(my_heap, father, best_child):
+        al.exchange(my_heap["elements"], pos, best_child_pos)
+        sink(my_heap, best_child_pos)
+
+    return my_heap
