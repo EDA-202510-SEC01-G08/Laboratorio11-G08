@@ -83,7 +83,7 @@ def get_adjacents(vertex):
 
     .. include:: code-examples/Graph/vertex/get_adjacents.rst
     """
-    return vertex["adjacents"]
+    return vertex["adjacents"]["table"]
 
 
 def get_edge(vertex, key_v):
