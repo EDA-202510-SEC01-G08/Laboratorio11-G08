@@ -54,6 +54,10 @@ def print_menu():
     print("*******************************************")
     print("Bienvenido")
     print("1- Inicializar Analizador")
+    print("ACLARO: El archivo de carga es muy pobre para editar, contiene poco y nada de lo trabajado en el laboratorio")
+    print("ACLARO: el unico todo presente no nos hace cambiar absolutamente nada del codigo de implementacion y eso es lo que falla")
+    print("ACLARO: IMPORTANTE: si deseas probar la funcion dijkstra PRESIONA 3, está implementada en el grafo que se usó en las diapositivas que compartio JUAN ANDRES")
+    print("--------GRACIAS-----------")
     print("2- Cargar información de buses de singapur")
     print("0- Salir")
     print("*******************************************")
@@ -87,6 +91,9 @@ def main():
 
         elif int(inputs[0]) == 2:
             option_two(cont)
+
+        elif int(inputs[0]) == 3:
+            logic.main_dijkstra()
         else:
             working = False
             print("Saliendo...")
